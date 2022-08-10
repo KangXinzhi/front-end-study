@@ -7,69 +7,157 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        body {
+        * {
             margin: 0;
             padding: 0;
-            background-color: edf1f4;
+            box-sizing: border-box;
         }
 
-        .container {
+        body {
+            background-color: #edf1f4;
+            perspective: 500px;
+            --c-wrap-shadow1: #f5f9fd;
+            --c-wrap-shadow2: #d8dbe5;
+            --c-wrap-bg: #e2e6eb;
+            --c-btn-shadow1: #d9dbe6;
+            --c-btn-shadow2: #f5f9fd;
+            --c-txt1: #aaa;
+            --c-txt2: #111;
+            transition: background-color 0.4s linear;
+        }
+
+        .dark {
+            background-color: #333;
+            --c-wrap-shadow1: #292929;
+            --c-wrap-shadow2: #202020;
+            --c-wrap-bg: #505050;
+            --c-btn-shadow1: #323232;
+            --c-btn-shadow2: #444;
+            --c-txt1: #888;
+            --c-txt2: #fff;
+        }
+
+        #btnWrapper {
             position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 200px;
-            height: 60px;
-            margin: 300px auto;
-            background-color: #e2e6eb;
-            border-radius: 4px;
-            box-shadow: #ccc 6px 6px 6px;
+            width: 380px;
+            height: 80px;
+            padding: 12px 16px;
+            margin: 300px auto 0;
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: var(--c-wrap-bg);
+            box-shadow: -10px -10px 15px var(--c-wrap-shadow1), 10px 10px 15px var(--c-wrap-shadow2);
+            transform-origin: var(--wraper-origin);
+            transition: transform 0.4s cubic-bezier(0, 0, 0.48, 1), box-shadow 0.4s linear, background-color 0.4s linear;
         }
 
-        .container::before {
+        .rotateWrap {
+            transform: rotateY(var(--wraper-rotate));
+        }
+
+        #btnWrapper::before {
             content: "";
             position: absolute;
-            left: 12px; 
-            top: 8px; 
-            width: calc(50% - 16px);
-            height: calc(100% - 20px);
+            left: var(--groove-left);
+            top: 12px;
+            width: calc(50% - 16px - 8px);
+            height: calc(100% - 24px);
             border-radius: 12px;
-            box-shadow: inset 4px 4px 3px #d9dce6,
-                inset -3px -3px 8px #f5f9fd,
-                inset -3px -3px 8px #f5f9fd,
-                inset 3px 3px 3px #d9dce6;
+            box-shadow: inset 8px 8px 6px var(--c-btn-shadow1), inset -5px -5px 15px var(--c-btn-shadow2), inset -5px -5px 15px var(--c-btn-shadow2), inset 7px 7px 6px var(--c-btn-shadow1);
+            transition: left 1s cubic-bezier(0.82, 0.12, 0.18, 0.88), box-shadow 0.4s linear;
         }
 
         .btn {
+            float: left;
             display: flex;
-            justify-content: center;
             align-items: center;
-            width: 80px;
-            height: 40px;
-            margin: 0 4px;
+            justify-content: center;
+            width: 50%;
+            height: 100%;
+            padding: inherit;
+            color: var(--c-txt1);
+            transition: color 0.4s linear;
+            animation: txtOutScale 0.6s linear;
             cursor: pointer;
-            color: #aaa;
         }
 
         .active {
-            color: #111;
+            color: var(--c-txt2);
+            transform: scale(1.1);
+            animation: txtEnterScale 0.4s linear;
+        }
+
+        @keyframes txtEnterScale {
+            0% {
+                transform: scale(1);
+            }
+
+            80% {
+                transform: scale(1.15);
+            }
+
+            100% {
+                transform: scale(1.1);
+            }
+        }
+
+        @keyframes txtOutScale {
+            0% {
+                transform: scale(1.1);
+            }
+
+            80% {
+                transform: scale(0.95);
+            }
+
+            100% {
+                transform: scale(1);
+            }
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <div class="btn active" id="btn1">btn1</div>
-        <div class="btn" id="btn2">btn2</div>
+    <div id="btnWrapper">
+        <div class="btn active">开灯</div>
+        <div class="btn">关灯</div>
     </div>
     <script>
-        let btn1 = document.getElementById('btn1');
-        let btn2 = document.getElementById('btn2');
-
-        btn1.onclick = () => {
-            btn1.style.color = 'black';
-            btn2.style.backgroundColor = 'red';
+        let wrapper = document.getElementById('btnWrapper');
+        wrapper.style.setProperty('--groove-left', '12px');
+        let btns = document.getElementsByClassName('btn');
+        for (let i = 0; i < btns.length; i++) {
+            btns[i].addEventListener('click', function (e) {
+                ThemeChange(i === 1);
+                resetBtn(btns);
+                wrapper.style.setProperty('--groove-left', `calc(12px + ${i * 50}%)`);
+                wrapper.style.setProperty('--wraper-origin', `${i === 0 ? '75% top' : '25% top'}`);
+                wrapper.style.setProperty('--wraper-rotate', `${i === 0 ? -8 : 8}deg`);
+                wrapper.className = 'rotateWrap';
+                setTimeout(() => {
+                    btns[i].className = 'btn active';
+                }, 500);
+                setTimeout(() => {
+                    wrapper.className = ''
+                }, 550);
+            })
         }
+        // 重置按钮类名
+        function resetBtn(btns) {
+            for (let i = 0; i < btns.length; i++) {
+                setTimeout(() => {
+                    btns[i].className = 'btn';
+                }, 100)
+            }
+        }
+        // 改变主题
+        function ThemeChange(bol) {
+            let body = document.body;
+            body.className = bol ? 'dark' : ''
+        }
+
+
+        // https://juejin.cn/post/7129788202335862791
     </script>
 </body>
 
