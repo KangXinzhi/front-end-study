@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: edf1f4;
+        }
+
+        .container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 200px;
+            height: 60px;
+            margin: 300px auto;
+            background-color: #e2e6eb;
+            border-radius: 4px;
+            box-shadow: #ccc 6px 6px 6px;
+        }
+
+        .container::before {
+            content: "";
+            position: absolute;
+            left: 12px; 
+            top: 8px; 
+            width: calc(50% - 16px);
+            height: calc(100% - 20px);
+            border-radius: 12px;
+            box-shadow: inset 4px 4px 3px #d9dce6,
+                inset -3px -3px 8px #f5f9fd,
+                inset -3px -3px 8px #f5f9fd,
+                inset 3px 3px 3px #d9dce6;
+        }
+
+        .btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 80px;
+            height: 40px;
+            margin: 0 4px;
+            cursor: pointer;
+            color: #aaa;
+        }
+
+        .active {
+            color: #111;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="btn active" id="btn1">btn1</div>
+        <div class="btn" id="btn2">btn2</div>
+    </div>
+    <script>
+        let btn1 = document.getElementById('btn1');
+        let btn2 = document.getElementById('btn2');
+
+        btn1.onclick = () => {
+            btn1.style.color = 'black';
+            btn2.style.backgroundColor = 'red';
+        }
+    </script>
+</body>
+
+</html>
