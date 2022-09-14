@@ -137,3 +137,15 @@
   }
   ```
   react$ 只会命中以 react 结尾的导入语句，即只会把 import 'react' 关键字替换成 import '/path/to/react.min.js'。
+
+- mainFields
+
+- extensions
+
+- modules
+
+- descriptionFiles
+
+- enforceExtension
+
+- enforceModuleExtension
