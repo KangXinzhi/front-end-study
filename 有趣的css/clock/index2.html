@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ikun 自用表盘《背带裤》</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: #fff;
+    }
+
+    .container {
+      position: relative;
+      display: flex;
+      width: 100%;
+      min-height: 100vh;
+      justify-content: center;
+      align-items: center;
+      background: url('./background.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .clock {
+      position: relative;
+      top: -130px;
+      display: flex;
+      width: 400px;
+      height: 400px;
+      justify-content: center;
+      align-items: center;
+      background-image: url("./clock.png");
+      /* background-image: url(https://im4.ezgif.com/tmp/ezgif-4-dd9ea3d61d.gif); */
+      background-size: cover;
+      background-repeat: no-repeat;
+      border: 4px solid #191919;
+      border-radius: 50%;
+      box-shadow: -4px -4px 10px rgba(67, 67, 67, .5),
+        inset 4px 4px 10px rgba(0, 0, 0, .5),
+        inset -4px -4px 10px rgba(67, 67, 67, .3);
+    }
+
+    .clock::before {
+      content: '';
+      position: absolute;
+      width: 15px;
+      height: 18px;
+      background: #b2807f;
+      border-radius: 20%;
+      z-index: 999;
+    }
+
+    .clock .hours,
+    .clock .minutes,
+    .clock .seconds {
+      position: absolute;
+    }
+
+    .clock .hours,
+    .hour {
+      width: 220px;
+      height: 220px;
+    }
+
+    .clock .minutes,
+    .minute {
+      width: 260px;
+      height: 260px;
+    }
+
+    .clock .seconds,
+    .second {
+      width: 300px;
+      height: 300px;
+    }
+
+    .hour,
+    .minute,
+    .second {
+      display: flex;
+      justify-content: center;
+      position: absolute;
+      border-radius: 50%;
+    }
+
+    .hour::before {
+      content: '';
+      position: absolute;
+      width: 10px;
+      height: 110px;
+      background: #fff;
+      border-radius: 6px 6px 0 0;
+      z-index: 9;
+    }
+
+    .minute::before {
+      content: '';
+      position: absolute;
+      width: 8px;
+      height: 130px;
+      background: #fff;
+      border-radius: 6px 6px 0 0;
+      z-index: 10;
+    }
+
+    .second::before {
+      content: '';
+      position: absolute;
+      width: 6px;
+      height: 150px;
+      background: #fff;
+      border-radius: 6px 6px 0 0;
+      z-index: 11;
+    }
+
+    #ballWrapper {
+      width: 300px;
+      height: 100px;
+      display: block;
+      position: absolute;
+      cursor: pointer;
+      right: -240px;
+      top: 150px;
+      visibility: hidden;
+    }
+
+    #ball {
+      width: 70px;
+      height: 70px;
+      position: relative;
+      animation: jump 1s infinite;
+      overflow: hidden;
+    }
+
+    #ball:after {
+      content: "";
+      width: 70px;
+      height: 70px;
+      border-radius: 100%;
+      background: url("./4D.svg");
+      position: absolute;
+      animation: rotate 2s infinite, back 1s infinite;
+      z-index: 5;
+      background-repeat: repeat;
+      background-size: cover;
+      animation-timing-function: linear;
+    }
+
+
+    @keyframes jump {
+      0% {
+        right: 0px;
+        transform: scale3d(1, 1, 1);
+        border-radius: 100%;
+        animation-timing-function: ease-out;
+      }
+
+      45% {
+        transform: scale3d(1, 1, 1);
+      }
+
+      50% {
+        right: -300px;
+        animation-timing-function: ease-in;
+        transform: scale3d(1.3, .8, 1);
+      }
+
+      55% {
+        transform: scale3d(1, 1, 1);
+      }
+
+      60% {
+        transform: scale3d(.8, 1.1, 1);
+      }
+
+      70% {
+        transform: scale3d(.95, 1.05, 1);
+      }
+
+      72% {
+        transform: scale3d(1, 1, 1);
+      }
+
+      100% {
+        transform: scale3d(1, 1, 1);
+        right: 0px;
+        border-radius: 100%;
+      }
+    }
+
+    @keyframes rotate {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* mode */
+    .mode {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 600px;
+      height: 80px;
+    }
+
+    #btnWrapper {
+      position: relative;
+      width: 400px;
+      height: 80px;
+      padding: 12px 16px;
+      margin: 40px 0 0 40px;
+      border-radius: 12px;
+      overflow: hidden;
+      background-color: #556d8b76;
+      box-shadow: -8px -8px 12px #ffffffb6, 8px 8px 12px #ffffffb6;
+      transform-origin: --wraper-origin;
+      transition: transform 0.4s cubic-bezier(0, 0, 0.48, 1), box-shadow 0.4s linear, background-color 0.4s linear;
+    }
+
+    .rotateWrap {
+      transform: rotateY(--wraper-rotate);
+    }
+
+    #btnWrapper::before {
+      content: "";
+      position: absolute;
+      left: var(--groove-left);
+      top: 12px;
+      width: calc(33.3% - 16px - 8px);
+      height: calc(100% - 24px);
+      border-radius: 12px;
+      box-shadow: inset 8px 8px 6px #ffffffb6, inset -5px -5px 15px #ffffffb6, inset -5px -5px 15px #ffffffb6, inset 7px 7px 6px #d9dbe6;
+      transition: left 1s cubic-bezier(0.82, 0.12, 0.18, 0.88), box-shadow 0.4s linear;
+    }
+
+    .btn {
+      float: left;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 33.3%;
+      height: 100%;
+      padding: inherit;
+      color: rgb(210, 208, 208);
+      transition: color 0.4s linear;
+      animation: txtOutScale 0.6s linear;
+      cursor: pointer;
+    }
+
+    .active {
+      color: #fff;
+      transform: scale(1.1);
+      animation: txtEnterScale 0.4s linear;
+    }
+
+    @keyframes txtEnterScale {
+      0% {
+        transform: scale(1);
+      }
+
+      80% {
+        transform: scale(1.15);
+      }
+
+      100% {
+        transform: scale(1.1);
+      }
+    }
+
+    @keyframes txtOutScale {
+      0% {
+        transform: scale(1.1);
+      }
+
+      80% {
+        transform: scale(0.95);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="mode">
+      <div id="btnWrapper">
+        <div class="btn active">背带异常</div>
+        <div class="btn">铁山靠</div>
+        <div class="btn">背带正常</div>
+      </div>
+    </div>
+
+    <div class="clock" id="clock">
+      <div class="hours">
+        <div class="hour" id="hour"></div>
+      </div>
+      <div class="minutes">
+        <div class="minute" id="minute"></div>
+      </div>
+      <div class="seconds">
+        <div class="second" id="second"></div>
+      </div>
+      <div id="ballWrapper">
+        <div id="ball"><span id="ballshad"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const deg = 6;
+    const hr = document.querySelector('#hour');
+    const mn = document.querySelector('#minute');
+    const sc = document.querySelector('#second');
+
+    let timer;
+    const clock = document.getElementById('clock');
+    const ballWrapper = document.getElementById('ballWrapper');
+
+
+    // 默认肩带正常模式
+    timer = setInterval(() => {
+      let day = new Date();
+      // let day = new Date("2022-11-1 14:56:31")
+      let hh = day.getHours() * 30; //当前Hour
+      let mm = day.getMinutes() * deg; //当前Minute
+      let ss = day.getSeconds() * deg; //当前Second
+      hr.style.transform = `rotateZ(${(hh) + (mm / 12)}deg)`;
+      mn.style.transform = `rotateZ(${mm}deg)`;
+      sc.style.transform = `rotateZ(${ss}deg)`;
+    });
+
+    let wrapper = document.getElementById('btnWrapper');
+    wrapper.style.setProperty('--groove-left', '12px');
+    let btns = document.getElementsByClassName('btn');
+    for (let i = 0; i < btns.length; i++) {
+      btns[i].addEventListener('click', function (e) {
+        resetBtn(btns);
+        wrapper.style.setProperty('--groove-left', `calc(12px + ${i * 33.3}%)`);
+        wrapper.style.setProperty('--wraper-origin', `${i === 0 ? '75% top' : '25% top'}`);
+        wrapper.style.setProperty('--wraper-rotate', `${i === 0 ? -8 : 8}deg`);
+        wrapper.className = 'rotateWrap';
+        setTimeout(() => {
+          btns[i].className = 'btn active';
+          switch (i) {
+            case 0: mode1();  break;
+            case 1: mode2();  break;
+            case 2: mode3();  break;
+            default: '';
+          }
+        }, 500);
+        setTimeout(() => {
+          wrapper.className = '';
+        }, 550);
+      })
+    }
+
+    function resetBtn(btns) {
+      for (let i = 0; i < btns.length; i++) {
+        setTimeout(() => {
+          btns[i].className = 'btn';
+        }, 100)
+      }
+    }
+
+    function mode1() {
+      clearInterval(timer);
+      timer = setInterval(() => {
+        let day = new Date();
+        // let day = new Date("2022-11-1 14:56:31")
+        let hh = day.getHours() * 30; //当前Hour
+        let mm = day.getMinutes() * deg; //当前Minute
+        let ss = day.getSeconds() * deg; //当前Second
+        hr.style.transform = `rotateZ(${(hh) + (mm / 12)}deg)`;
+        mn.style.transform = `rotateZ(${mm}deg)`;
+        sc.style.transform = `rotateZ(${ss}deg)`;
+      });
+      ballWrapper.style.setProperty('visibility', 'hidden');
+      clock.style.setProperty('background-image', `url('./clock.png')`);
+    }
+
+    function mode2() {
+      clearInterval(timer);
+      timer = setInterval(() => {
+        let day = new Date();
+        // let day = new Date("2022-11-1 14:56:31")
+        let hh = day.getHours() * 30; //当前Hour
+        let mm = day.getMinutes() * deg; //当前Minute
+        let ss = day.getSeconds() * deg; //当前Second
+        hr.style.transform = `rotateZ(${(hh) + (mm / 12)}deg)`;
+        mn.style.transform = `rotateZ(${mm}deg)`;
+        sc.style.transform = `rotateZ(${ss}deg)`;
+      });
+      ballWrapper.style.setProperty('visibility', 'visible');
+      clock.style.setProperty('background-image',`url('./ikun.gif')`);
+    }
+
+    function mode3() {
+      clearInterval(timer);
+      timer = setInterval(() => {
+        // let day = new Date();
+        let day = new Date("2022-11-1 14:56:31")
+        let hh = day.getHours() * 30; //当前Hour
+        let mm = day.getMinutes() * deg; //当前Minute
+        let ss = day.getSeconds() * deg; //当前Second
+        hr.style.transform = `rotateZ(${(hh) + (mm / 12)}deg)`;
+        mn.style.transform = `rotateZ(${mm}deg)`;
+        sc.style.transform = `rotateZ(${ss}deg)`;
+      });
+      ballWrapper.style.setProperty('visibility', 'hidden');
+      clock.style.setProperty('background-image', `url('./clock.png')`);
+    }
+
+  </script>
+</body>
+
+</html>

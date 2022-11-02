@@ -1,0 +1,105 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>纯CSS实现的篮球动画</title>
+  <style>
+
+    #ballWrapper {
+      width: 100px;
+      height: 260px;
+      display: block;
+      position: absolute;
+      cursor: pointer;
+      left: 47%;
+      top: 35%;
+    }
+
+    #ball {
+      width: 70px;
+      height: 70px;
+      position: relative;
+      animation: jump 1s infinite;
+      overflow: hidden;
+    }
+
+    #ball:after {
+      content: "";
+      width: 70px;
+      height: 70px;
+      border-radius: 100%;
+      background: url("images/4D.svg");
+      position: absolute;
+      animation: rotate 2s infinite, back 1s infinite;
+      z-index: 5;
+      background-repeat: repeat;
+      background-size: cover;
+      animation-timing-function: linear;
+    }
+
+
+    @keyframes jump {
+      0% {
+        top: 0;
+        transform: scale3d(1, 1, 1);
+        border-radius: 100%;
+        animation-timing-function: ease-in;
+      }
+
+      45% {
+        transform: scale3d(1, 1, 1);
+      }
+
+      50% {
+        top: 200px;
+        animation-timing-function: ease-out;
+        transform: scale3d(1.3, .8, 1);
+      }
+
+      55% {
+        transform: scale3d(1, 1, 1);
+      }
+
+      60% {
+        transform: scale3d(.8, 1.1, 1);
+      }
+
+      70% {
+        transform: scale3d(.95, 1.05, 1);
+      }
+
+      72% {
+        transform: scale3d(1, 1, 1);
+      }
+
+      100% {
+        transform: scale3d(1, 1, 1);
+        top: 0;
+        border-radius: 100%;
+      }
+    }
+
+    @keyframes rotate {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+
+ 
+  </style>
+</head>
+
+<body>
+  <div id="ballWrapper">
+    <div id="ball"></div>
+  </div>
+</body>
+
+</html>
