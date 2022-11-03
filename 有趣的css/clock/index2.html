@@ -34,6 +34,7 @@
       background-repeat: no-repeat;
     }
 
+    /* 绘制时钟 */
     .clock {
       position: relative;
       top: -130px;
@@ -43,7 +44,6 @@
       justify-content: center;
       align-items: center;
       background-image: url("./clock.png");
-      /* background-image: url(https://im4.ezgif.com/tmp/ezgif-4-dd9ea3d61d.gif); */
       background-size: cover;
       background-repeat: no-repeat;
       border: 4px solid #191919;
@@ -126,6 +126,28 @@
       z-index: 11;
     }
 
+    /* 刻度盘 */
+    .line-hour li,
+    .line-min li {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform-origin: left center;
+      background-color: #FFF;
+      list-style: none;
+    }
+
+    .line-hour li {
+      width: 16px;
+      height: 2px;
+    }
+
+    .line-min li {
+      width: 5px;
+      height: 2px;
+    }
+
+    /* 篮球 */
     #ballWrapper {
       width: 300px;
       height: 100px;
@@ -163,9 +185,13 @@
     @keyframes jump {
       0% {
         right: 0px;
-        transform: scale3d(1, 1, 1);
+        transform: scale3d(1.3, .8, 1);
+
         border-radius: 100%;
         animation-timing-function: ease-out;
+      }
+      5% {
+        transform: scale3d(1, 1, 1);
       }
 
       45% {
@@ -175,10 +201,6 @@
       50% {
         right: -300px;
         animation-timing-function: ease-in;
-        transform: scale3d(1.3, .8, 1);
-      }
-
-      55% {
         transform: scale3d(1, 1, 1);
       }
 
@@ -230,12 +252,7 @@
       overflow: hidden;
       background-color: #556d8b76;
       box-shadow: -8px -8px 12px #ffffffb6, 8px 8px 12px #ffffffb6;
-      transform-origin: --wraper-origin;
       transition: transform 0.4s cubic-bezier(0, 0, 0.48, 1), box-shadow 0.4s linear, background-color 0.4s linear;
-    }
-
-    .rotateWrap {
-      transform: rotateY(--wraper-rotate);
     }
 
     #btnWrapper::before {
@@ -311,6 +328,8 @@
     </div>
 
     <div class="clock" id="clock">
+      <ul class="line-min"></ul>
+      <ul class="line-hour"></ul>
       <div class="hours">
         <div class="hour" id="hour"></div>
       </div>
@@ -337,6 +356,18 @@
     const clock = document.getElementById('clock');
     const ballWrapper = document.getElementById('ballWrapper');
 
+    function drawLines(className, total, translateX) {
+      const gap = 360 / total;
+      let strHtml = '';
+      for (let i = 0; i < total; i++) {
+        strHtml += `<li style="transform:rotate(${i * gap}deg) translate(${translateX}px,-50%);"></li>`;
+      }
+      const wrap = document.getElementsByClassName(className)[0];
+      wrap.innerHTML = strHtml;
+    }
+
+    drawLines('line-min', 60, 185);
+    drawLines('line-hour', 12, 175);
 
     // 默认肩带正常模式
     timer = setInterval(() => {
@@ -351,22 +382,23 @@
     });
 
     let wrapper = document.getElementById('btnWrapper');
-    wrapper.style.setProperty('--groove-left', '12px');
+    wrapper.style.setProperty('--groove-left', '20px');
     let btns = document.getElementsByClassName('btn');
     for (let i = 0; i < btns.length; i++) {
       btns[i].addEventListener('click', function (e) {
         resetBtn(btns);
-        wrapper.style.setProperty('--groove-left', `calc(12px + ${i * 33.3}%)`);
-        wrapper.style.setProperty('--wraper-origin', `${i === 0 ? '75% top' : '25% top'}`);
-        wrapper.style.setProperty('--wraper-rotate', `${i === 0 ? -8 : 8}deg`);
-        wrapper.className = 'rotateWrap';
+        switch (i) {
+          case 0:  wrapper.style.setProperty('--groove-left', `calc(20px + ${i * 33.3}%)`); break;
+          case 1:  wrapper.style.setProperty('--groove-left', `calc(12px + ${i * 33.3}%)`);; break;
+          case 2:  wrapper.style.setProperty('--groove-left', `calc(${i * 33.3}%)`);; break;
+        }
+       
         setTimeout(() => {
           btns[i].className = 'btn active';
           switch (i) {
-            case 0: mode1();  break;
-            case 1: mode2();  break;
-            case 2: mode3();  break;
-            default: '';
+            case 0: mode1(); break;
+            case 1: mode2(); break;
+            case 2: mode3(); break;
           }
         }, 500);
         setTimeout(() => {
@@ -412,7 +444,7 @@
         sc.style.transform = `rotateZ(${ss}deg)`;
       });
       ballWrapper.style.setProperty('visibility', 'visible');
-      clock.style.setProperty('background-image',`url('./ikun.gif')`);
+      clock.style.setProperty('background-image', `url('./ikun.gif')`);
     }
 
     function mode3() {
