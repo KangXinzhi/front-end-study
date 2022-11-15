@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    body, p {
+      margin: 0;
+      padding: 0;
+      font-size: 0;
+      text-align: center;
+    }
+    :root {
+      --arcRadius: 220px;
+      --rectWidth: calc(var(--arcRadius) * 2);
+      --trackWidth: 2px;
+      --roundWidth: 8px;
+      --dotHeight: 8px;
+      --backColor: pink;
+      --roundColor: #fe4d55;
+    }
+    .arc-wrapper {
+      position: relative;
+      margin: 40px auto;
+      width: var(--rectWidth);
+      height: var(--arcRadius);
+      overflow: hidden;
+      background-color: var(--backColor);
+    }
+    .track-arc {
+      --trackArcSize: calc(var(--rectWidth) - var(--roundWidth) + var(--trackWidth));
+      width: var(--trackArcSize);
+      height: var(--trackArcSize);
+      box-sizing: border-box;
+      border-radius: 50%;
+      border: var(--trackWidth) solid #ad80fc;
+      transform: translate(calc(var(--roundWidth) / 2 - var(--trackWidth) / 2), calc(var(--roundWidth) / 2 - var(--trackWidth) / 2));
+    }
+    .round-box {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      transform-origin: 50% 100%;
+      transform: rotate(-177deg);
+      z-index: 20;
+    }
+    .round {
+      width: 100%;
+      height: var(--rectWidth);
+      box-sizing: border-box;
+      border-radius: 50%;
+      border: var(--roundWidth) solid var(--roundColor);
+    }
+    .dot-l-box, .dot-r-box {
+      position: absolute;
+      bottom: 0;
+      width: var(--roundWidth);
+      height: var(--dotHeight);
+      background-color: var(--backColor);
+      z-index: 50;
+    }
+    .dot-l-box {
+      left: 0;
+    }
+    .dot-r-box {
+      right: 0;
+    }
+    .dot-l, .dot-r {
+      display: inline-block;
+      width: 100%;
+      height: 100%;
+      /* 这里的100px只是为了呈现出最大限度的圆角 */
+      border-bottom-left-radius: 100px;
+      border-bottom-right-radius: 100px;
+      background-color: var(--roundColor);
+    }
+
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas" width="1000" height="600" style="width: 500px; height: 300px;background-color: pink;"></canvas>
+  <div class="arc-wrapper">
+    <p class="track-arc"></p>
+    <div class="round-box">
+      <p class="round"></p>
+      <p class="dot-r-box">
+        <span class="dot-r"></span>
+      </p>
+    </div>
+    <p class="dot-l-box">
+      <span class="dot-l"></span>
+    </p>
+  </div>
+  <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="border: 1px solid red; width: 500px; height: 300px;">
+    <path fill="none" stroke-linecap="round" class="outerArc" />
+    <path fill="none" stroke-linecap="round" class="innerArc" />
+  </svg>
+  <input type="text" class="input" placeholder="输入进度 0-100">
+  <button onclick="run()">Run</button>
+</body>
+<script>
+  // canvas绘制控制逻辑
+  const trackW = 6
+  const rx = 500
+  const ry = 500
+  const radius = 400
+  const innerLineW = 20
+  const canvas = document.getElementById('canvas')
+  const ctx = canvas.getContext('2d')
+  function draw (toAngle, currentAngle = Math.PI) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    // 半圆轨道
+    ctx.beginPath()
+    ctx.strokeStyle = '#ad80fc'
+    ctx.lineWidth = trackW
+    ctx.arc(rx, ry, radius, Math.PI, 0, false)
+    ctx.stroke()
+    // 圆弧
+    ctx.beginPath()
+    ctx.lineCap = 'round'
+    ctx.strokeStyle = '#fe4d55'
+    ctx.lineWidth = innerLineW
+    ctx.arc(rx, ry, radius, Math.PI, currentAngle, false)
+    ctx.stroke()
+    if (currentAngle < toAngle) {
+      currentAngle += toAngle > 1.5 * Math.PI ? 0.04 : 0.02
+      if (currentAngle > toAngle) currentAngle = toAngle
+      requestAnimationFrame(() => {
+        draw(toAngle, currentAngle)
+      })
+    }
+  }
+  draw(0)
+</script>
+<script>
+  // svg绘制控逻辑
+  const svgRadius = 200
+  const svgStartX = 10
+  const svgStartY = 255
+  const strokeWidth = 4
+  const outerStrokeColor = '#ad80fc'
+
+  // 圆心坐标
+  const x0 = svgRadius + svgStartX
+  const y0 = svgStartY
+
+  const outerArc = document.querySelector('.outerArc')
+  outerArc.setAttribute('stroke', outerStrokeColor)
+  outerArc.setAttribute('stroke-width', strokeWidth)
+  outerArc.setAttribute('d', `m${svgStartX} ${svgStartY} A${svgRadius} ${svgRadius} 0 0 1 ${svgStartX + 2 * svgRadius} ${svgStartY}`)
+  
+  const innerArc = document.querySelector('.innerArc')
+  innerArc.setAttribute('stroke-width', strokeWidth * 2)
+
+  function runSvg (angle) {
+    const endX = x0 + svgRadius * Math.cos(angle)
+    const endY = y0 + svgRadius * Math.sin(angle)
+    innerArc.style.transition = 'none'
+    innerArc.setAttribute('stroke', outerStrokeColor)
+    innerArc.setAttribute('d', `m${svgStartX} ${svgStartY} A${svgRadius} ${svgRadius} 0 0 1 ${endX} ${endY}`)
+    const pathLength = innerArc.getTotalLength()
+    innerArc.style.strokeDasharray = pathLength
+    innerArc.style.strokeDashoffset = pathLength
+    innerArc.setAttribute('d', '')
+    setTimeout(() => {
+      innerArc.style.transition = `stroke-dashoffset ${angle > 1.5 * Math.PI ? '1' : '0.5'}s ease-in`
+      innerArc.setAttribute('stroke', '#05D380')
+      innerArc.setAttribute('d', `m${svgStartX} ${svgStartY} A${svgRadius} ${svgRadius} 0 0 1 ${endX} ${endY}`)
+      innerArc.style.strokeDashoffset = 0
+    }, 0)
+  }
+</script>
+<script>
+  const roundBox = document.querySelector('.round-box')
+  const input = document.querySelector('.input')
+  function run () {
+    const angle = (input.value > 100 ? 100 : (input.value < 0 ? 0 : input.value)) / 100 * 180
+    // 177 是预留值，防止 dot-l露馅
+    roundBox.style.transform = `rotate(${Math.max(angle - 180, -177)}deg)`
+    roundBox.style.transitionDuration = angle > 90 ? '1s' : '0.5s'
+    draw((angle + 180) / 180 * Math.PI)
+    runSvg((angle + 180) / 180 * Math.PI)
+  }
+</script>
+</html>
