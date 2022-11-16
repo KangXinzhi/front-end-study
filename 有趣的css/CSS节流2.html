@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style type="text/css">
+    button {
+      opacity: .99;
+      transition: opacity 2s;
+    }
+
+    button:not(:disabled):active {
+      opacity: 1;
+      transition: 0s;
+    }
+  </style>
+</head>
+
+<body>
+  <button class="btn">点我</button>
+  <script type="text/javascript">
+    const btn = document.querySelector('.btn')
+    btn.addEventListener('click', function (e) {
+      console.log('你点击了一下')
+    })
+    document.addEventListener('transitionstart', function (ev) {
+      ev.target.disabled = true
+    })
+    // 过渡结束
+    document.addEventListener('transitionend', function (ev) {
+      ev.target.disabled = false
+    })
+  </script>
+</body>
+
+</html>
