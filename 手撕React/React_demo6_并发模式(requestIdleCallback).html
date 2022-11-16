@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+
+  <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+  <div id='container'></div>
+  <script type="text/babel">
+
+    // 下一个工作单元
+    let nextUnitOfWork = null
+    /**
+     * workLoop 工作循环函数
+     * @param {deadline} 截止时间
+     */
+    function workLoop(deadline) {
+      // 是否应该停止工作循环函数
+      let shouldYield = false
+
+      // 如果存在下一个工作单元，且没有优先级更高的其他工作时，循环执行
+      while (nextUnitOfWork && !shouldYield) {
+        nextUnitOfWork = performUnitOfWork(
+          nextUnitOfWork
+        )
+
+        // 如果截止时间快到了，停止工作循环函数
+        shouldYield = deadline.timeRemaining() < 1
+      }
+
+      // 通知浏览器，空闲时间应该执行 workLoop
+      requestIdleCallback(workLoop)
+    }
+    // 通知浏览器，空闲时间应该执行 workLoop
+    requestIdleCallback(workLoop)
+
+    // 执行单元事件，并返回下一个单元事件
+    function performUnitOfWork(nextUnitOfWork) {
+      // TODO
+    }
+
+  </script>
+</body>
+
+</html>
