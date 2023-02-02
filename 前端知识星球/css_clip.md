@@ -17,6 +17,14 @@ clip: rect(top, right, bottom, left) // 裁剪图片
 }
 ```
 
+
+举个例子，很多网站左上角都有包含自己网站名称的标识（logo），而这些标识一般都是图片，为了更好地SEO 以及无障碍识别，我们一般会使用<h1>标签写上网站的名称，代码如 下：   
+```
+<a href="/" class="logo"> 
+  <h1>CSS 世界</h1> 
+</a>
+```
+
 隐藏：
 - 下策是display:none 或者visibility:hidden 隐藏，因为屏幕阅读设备会忽略这里的文字。
 - text-indent 缩进是中策，但文字如果缩进过大，大到屏幕之外，屏幕阅读设备也是不会读取的。
@@ -28,3 +36,4 @@ clip: rect(top, right, bottom, left) // 裁剪图片
   clip: rect(0 0 0 0); 
 } 
 ``` 
+
