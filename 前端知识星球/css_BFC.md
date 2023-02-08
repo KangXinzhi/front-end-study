@@ -12,7 +12,8 @@ BFC 全称为block  formatting  context，中文为“块级格式化上下文�
 - overflow 的值为auto、scroll 或hidden；
 - display 的值为table-cell、table-caption 和inline-block 中的任何一个； 
 - position 的值不为relative 和static。
-
+- flex的直接子元素
+- grid的直接子元素
 
 ## BFC 作用
 - 清除内部浮动 （撑开高度）原理: 触发父 div 的 BFC 属性，使下面的子 div 都处在父 div 的同一个 BFC 区域之内
