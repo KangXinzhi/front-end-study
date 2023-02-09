@@ -14,9 +14,9 @@ https://bennettfeely.com/clippy/
 
 ```
 .polygon {
-     width: 100px；
-     height: 100px;
-     background-color: red;
-     clip-path: polygon(50% 0, 100% 100%, 0 100%);
+    width: 100px；
+    height: 100px;
+    background-color: red;
+    clip-path: polygon(50% 0, 100% 100%, 0 100%);
 }
 ```
