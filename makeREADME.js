@@ -31,7 +31,7 @@ function generateReadme() {
     content += `### ${dir}\n`;
     const files = fileList.filter(file => file.includes(`${dir}/`));
     for (const file of files) {
-      const fileName = file.replace(`${basePath}${dir}/`, '').replace('.md', '');
+      const fileName = file.replace(`${dir}/`, '').replace('.md', '');
       content += `- <a href="${file}">${fileName}</a>\n`;
     }
     content += '\n';
