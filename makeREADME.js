@@ -8,6 +8,7 @@ const includePath = [
   "杂项",
   "书籍pdf",
   "手撕React",
+  "ahooks源码分析系列",
 ]; // 指定要遍历的文件夹
 const basePath = "./"; // 指定要遍历的根目录
 
