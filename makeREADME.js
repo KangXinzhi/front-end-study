@@ -25,7 +25,8 @@ function traverseDir(dirPath) {
       }
     } else {
       if (file.endsWith(".md")) {
-        fileList.push(filePath);
+        const fileUpdateTime = stat.mtime.toLocaleString(); // 获取文件最后一次更新时间
+        fileList.push({ path: filePath, updateTime: fileUpdateTime }); // 将文件路径和更新时间存入数组
       }
     }
   }
@@ -36,12 +37,12 @@ function generateReadme() {
   let content = "# front-end-study\n长期更新，前端学习之路。\n\n";
   for (const dir of includePath) {
     content += `### ${dir}\n`;
-    const files = fileList.filter((file) => file.includes(dir));
+    const files = fileList.filter((file) => file.path.includes(dir));
     console.log(files);
 
     for (const file of files) {
-      const fileName = file.replace(`${dir}/`, "").replace(".md", "");
-      content += `- <a href="${file}">${fileName}</a>\n`;
+      const fileName = file.path.replace(`${dir}/`, "").replace(".md", "");
+      content += `- <a href="${file.path}">${fileName}_${file.updateTime}</a>\n`; // 添加文件更新时间
     }
     content += "\n";
   }
