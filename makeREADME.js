@@ -2,8 +2,8 @@ const fs = require("fs");
 const path = require("path");
 
 const includePath = [
-  "前端知识星球",
   "ahooks源码分析系列",
+  "前端知识星球",
   "leetcode",
   "手撕算法",
   "杂项",
@@ -42,7 +42,7 @@ function generateReadme() {
 
     for (const file of files) {
       const fileName = file.path.replace(`${dir}/`, "").replace(".md", "");
-      content += `- <a href="${file.path}">${fileName}_${file.updateTime}</a>\n`; // 添加文件更新时间
+      content += `- <a href="${file.path}">${fileName}</a> ${file.updateTime}\n`; // 添加文件更新时间
     }
     content += "\n";
   }
