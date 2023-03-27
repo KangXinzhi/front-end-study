@@ -25,7 +25,7 @@ function traverseDir(dirPath) {
       }
     } else {
       if (file.endsWith(".md")) {
-        const fileUpdateTime = stat.mtime.toLocaleString(); // 获取文件最后一次更新时间
+        const fileUpdateTime = stat.mtime.toLocaleString().substring(0, 10).replace(/[\u4e00-\u9fa5\s]*$/, '');
         fileList.push({ path: filePath, updateTime: fileUpdateTime }); // 将文件路径和更新时间存入数组
       }
     }
