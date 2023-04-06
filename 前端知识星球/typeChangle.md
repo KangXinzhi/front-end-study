@@ -115,11 +115,11 @@ Omit<T, K>从类型T中剔除K中的所有属性。
 /**
  * 利用Pick实现Omit
  */
-type Omit = Pick<T, Exclude<keyof T, K>>;
+type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 ```
 
 ```
-type Omit2<T, K extends keyof any> = {
+type Omit2<T, K extends keyof T> = {
   [P in Exclude<keyof T, K>]: T[P]
 }
 ```
