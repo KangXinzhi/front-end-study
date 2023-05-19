@@ -5,6 +5,7 @@
 
 ### Install
 ```yarn add -D eslint @antfu/eslint-config```
+```npm i -D eslint @antfu/eslint-config```
 
 ### Config .eslintrc
 ```
@@ -30,6 +31,8 @@
 
 ## stylelint
 ### Install
+
+```npm i -D stylelint stylelint-config-prettier stylelint-config-recommended stylelint-config-standard stylelint-less stylelint-order```
 ```
   "stylelint": "^15.6.1",
   "stylelint-config-prettier": "^9.0.5",
