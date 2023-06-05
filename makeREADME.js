@@ -25,11 +25,19 @@ function traverseDir(dirPath) {
       }
     } else {
       if (file.endsWith(".md")) {
-        const fileUpdateTime = stat.mtime.toLocaleString().substring(0, 10).replace(/[\u4e00-\u9fa5\s]*$/, '');
+        const fileUpdateDate = stat.mtime.getDate();
+        const fileUpdateMonth = stat.mtime.getMonth() + 1;
+        const fileUpdateYear = stat.mtime.getFullYear();
+        const fileUpdateTime = `${fileUpdateYear}/${padZero(fileUpdateMonth)}/${padZero(fileUpdateDate)}`;
         fileList.push({ path: filePath, updateTime: fileUpdateTime }); // 将文件路径和更新时间存入数组
       }
     }
   }
+}
+
+// 辅助函数：补零
+function padZero(num) {
+  return num.toString().padStart(2, '0');
 }
 
 // 生成README.md文件
