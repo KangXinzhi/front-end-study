@@ -1,33 +1,56 @@
 实现思路
-（1）拷贝调用函数:
-调用函数，也即调用myBind的函数，用一个变量临时储存它；
-使用Object.create复制调用函数的prototype给funcForBind；
-（2）返回拷贝的函数funcForBind；
-（3）调用拷贝的函数funcForBind：
-new调用判断：通过instanceof判断函数是否通过new调用，来决定绑定的context；
-通过call绑定this、传递参数；
-返回调用函数的执行结果。
+传递给函数的参数处理，不太一样，其他部分跟call一样；
+apply接受第二个参数为类数组对象, 这里用了《JavaScript权威指南》一书中判断是否为类数组对象的方法。
+
 ```
 /**
- * 用原生JavaScript实现bind
+ * 用原生JavaScript实现apply
  */
-Function.prototype.myBind = function(objThis, ...params) {
-  const thisFn = this;//存储调用函数，以及上方的params(函数参数)
-  //对返回的函数 secondParams 二次传参
-  let funcForBind = function(...secondParams) {
-    //检查this是否是funcForBind的实例？也就是检查funcForBind是否通过new调用
-    const isNew = this instanceof funcForBind;
+Function.prototype.myApply = function(thisArg) {
+  if (thisArg === null || thisArg === undefined) {
+    thisArg = window;
+  } else {
+    thisArg = Object(thisArg);
+  }
 
-    //new调用就绑定到this上,否则就绑定到传入的objThis上
-    const thisArg = isNew ? this : Object(objThis);
+  //判断是否为【类数组对象】
+  function isArrayLike(o) {
+    if (
+      o && // o不是null、undefined等
+      typeof o === "object" && // o是对象
+      isFinite(o.length) && // o.length是有限数值
+      o.length >= 0 && // o.length为非负值
+      o.length === Math.floor(o.length) && // o.length是整数
+      o.length < 4294967296
+    )
+      // o.length < 2^32
+      return true;
+    else return false;
+  }
 
-    //用call执行调用函数，绑定this的指向，并传递参数。返回执行结果
-    return thisFn.call(thisArg, ...params, ...secondParams);
-  };
+  const specialMethod = Symbol("anything");
+  thisArg[specialMethod] = this;
 
-  //复制调用函数的prototype给funcForBind
-  funcForBind.prototype = Object.create(thisFn.prototype);
-  return funcForBind;//返回拷贝的函数
+  let args = arguments[1]; // 获取参数数组
+  let result;
+
+  // 处理传进来的第二个参数
+  if (args) {
+    // 是否传递第二个参数
+    if (!Array.isArray(args) && !isArrayLike(args)) {
+      throw new TypeError(
+        "第二个参数既不为数组，也不为类数组对象。抛出错误"
+      );
+    } else {
+      args = Array.from(args); // 转为数组
+      result = thisArg[specialMethod](...args); // 执行函数并展开数组，传递函数参数
+    }
+  } else {
+    result = thisArg[specialMethod]();
+  }
+
+  delete thisArg[specialMethod];
+  return result; // 返回函数执行结果
 };
 ```
 
