@@ -83,9 +83,14 @@
 - Promise.any
 
 ### es13
- - 数组findLast/findLastIndex
  - 数组at 支持倒序查找
  - 支持在最外层写await
  - 给类定义私有方法和成员变量，hashtag(#)前缀
  - 类成员声明
  - 正则支持返回开始和结束索引，添加一个d的标记来实现
+
+### es14
+- 从尾到头搜索数组：findLast() 、findLastIndex()
+- Hashbang 语法
+- 通过副本更改数组：toReversed()、toSorted()、toSpliced()、with()
+- Symbol 作为 WeakMap 的键
