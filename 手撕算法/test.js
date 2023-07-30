@@ -449,3 +449,26 @@ function swap(arr,i,j){
   arr[i] = arr[j]
   arr[j] = temp
 }
+
+
+// 订阅发布 on emit off
+
+class eventBus{
+  constructor(){
+    events = {}
+  }
+
+  on(type,fn){
+    if(!this.event[type]){
+      events[type] = [fn]
+    }else{
+      events[type].push(fn)
+    }
+  }
+
+  emit(type){
+    if(!event)
+  }
+
+
+}
