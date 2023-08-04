@@ -469,6 +469,4 @@ class eventBus{
   emit(type){
     if(!event)
   }
-
-
 }
