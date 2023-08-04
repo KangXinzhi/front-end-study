@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Video Page with Introduce Area</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    #video-container {
+      position: relative;
+      display: inline-block;
+      overflow: hidden;
+    }
+
+
+    #introduce {
+      position: absolute;
+      bottom: 100px;
+      left: 20px;
+      width: 300px;
+      height: 86px;
+      background-color: rgba(0, 0, 0, 0.1);
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding: 10px;
+      box-sizing: border-box;
+      opacity: 1;
+      overflow: hidden;
+    }
+
+    #name {
+      position: absolute;
+      top: 0;
+      left: -100%;
+      animation: nameAnimationIn 2s forwards;
+      background-color: rgba(13, 146, 255);
+      color: white;
+      font-size: 28px;
+      padding: 8px 20px;
+    }
+
+    #title {
+      position: absolute;
+      bottom: 0;
+      right: -100%;
+      animation: titleAnimationIn 2s forwards;
+      color: rgba(105, 154, 244);
+      background-color: white;
+      font-size: 20px;
+      padding: 4px 12px;
+    }
+
+    @keyframes nameAnimationIn {
+      0% {
+        left: -100%;
+        opacity: 0;
+        color: transparent;
+      }
+      90% {
+        color: transparent;
+      }
+      100% {
+        left: 0;
+        opacity: 1;
+        color: white;
+      }
+    }
+
+    @keyframes titleAnimationIn {
+      0% {
+        right: -100%;
+        opacity: 0;
+        color: transparent;
+      }
+      90% {
+        color: transparent;
+      }
+
+      100% {
+        right: 0;
+        opacity: 1;
+        color: rgba(105, 154, 244);
+      }
+    }
+
+    #introduce2 {
+      position: absolute;
+      bottom: 100px;
+      right: 20px;
+      width: 300px;
+      height: 86px;
+      background-color: rgba(0, 0, 0, 0.1);
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding: 10px;
+      box-sizing: border-box;
+      opacity: 1;
+      overflow: hidden;
+    }
+
+    #name2 {
+      position: absolute;
+      top: 0;
+      left: 0;
+      animation: nameAnimationOut 2s forwards;
+      background-color: rgba(13, 146, 255);
+      color: white;
+      font-size: 28px;
+      padding: 8px 20px;
+    }
+
+    #title2 {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      animation: titleAnimationOut 2s forwards;
+      color: rgba(105, 154, 244);
+      background-color: white;
+      font-size: 20px;
+      padding: 4px 12px;
+    }
+
+    @keyframes nameAnimationOut {
+      0% {
+        left: 0;
+        opacity: 0;
+        color: white;
+      }
+
+      100% {
+        left: -100%;
+        opacity: 1;
+        color: transparent;
+      }
+    }
+
+    @keyframes titleAnimationOut {
+      0% {
+        right: 0;
+        opacity: 0;
+        color: rgba(105, 154, 244);
+      }
+
+      100% {
+        right: -100%;
+        opacity: 1;
+        color: transparent;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="video-container">
+    <video width="1200" height="600" controls id="videoContro;">
+      <source src="https://uskid.oss-cn-beijing.aliyuncs.com/temp/%E5%90%8D%E6%9D%A1.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <div id="introduce">
+      <div id="name">Your Name</div>
+      <div id="title">YourTitleYourTitle</div>
+    </div>
+
+    <div id="introduce2">
+      <div id="name2">Your Name</div>
+      <div id="title2">YourTitleYourTitle</div>
+    </div>
+  </div>
+</body>
+
+</html>
