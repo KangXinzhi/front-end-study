@@ -20,6 +20,6 @@ function myAssign(target, source){
             }
         }
     })
-    return target    
+    return target
 }
 ```
