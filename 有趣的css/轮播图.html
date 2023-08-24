@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>纯css实现轮播图效果</title>
+    <!-- 轮播图css -->
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      h2 {
+        display: block;
+        /* margin: 0 auto; */
+        text-align: center;
+      }
+      /* 图片基础样式 */
+      li {
+        list-style: none;
+        float: left;
+      }
+      ul img {
+        width: 1226px; /* 保证图片尺寸统一 */
+        height: auto;
+      }
+
+      /* 右 -》 左 移动轮播图 */
+      /* 基础样式 */
+      .container1 {
+        width: 1226px;
+        height: 460px;
+        margin: 50px auto 0;
+        overflow: hidden;
+        position: relative;
+      }
+      .container1 ul {
+        background-color: rgb(152, 204, 39);
+        width: 600%; /* 确保能放下所有图片并排排列 */
+        overflow: hidden;
+      }
+
+      /* 动画效果实现 */
+
+      /* 图片动画效果 */
+      .container1 ul {
+        /* animation: imgMove 40s cubic-bezier(0,1.04,0,.99) 10s infinite; */
+        animation-name: imgMove;
+        animation-duration: 20s;
+        animation-timing-function: cubic-bezier(0, 1.04, 0, 0.99);
+        animation-delay: 5s;
+        animation-iteration-count: infinite;
+      }
+      .container1 ul:hover {
+        /* 鼠标进入就停止动画 */
+        /* animation-play-state: paused; */
+      }
+      @keyframes imgMove {
+        0% {
+          transform: translateX(0px);
+        }
+        25% {
+          transform: translateX(-1226px);
+        }
+        50% {
+          transform: translateX(-2452px);
+        }
+        75% {
+          transform: translateX(-3678px);
+        }
+        100% {
+          transform: translateX(-4904px);
+        }
+      }
+
+      /* 背景改变轮播图 */
+
+      /* 轮播焦点基础样式 */
+      ol {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        margin-left: -60px;
+        padding: 10px;
+        z-index: 999;
+      }
+      ol li {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        border: 1px solid #ccc;
+        margin: 0 5px;
+        background-color: #fff;
+      }
+
+    </style>
+  </head>
+  <body>
+    <!-- 左右滑动式 -->
+    <div class="container1">
+      <h2>左右滑动式</h2>
+      <!-- 轮播图结构 -->
+      <ul>
+        <li>
+          <img
+            src="https://m.qpic.cn/psb?/V11CA95048EY0H/.ubxWcpYNfZ8bxP.aX9Ft0Xw27Wt0TSqHy1nGwH8Sy4!/b/dMMAAAAAAAAA&bo=ygTMAQAAAAARBzM!&rf=viewer_4"
+            alt=""
+          />
+        </li>
+        <li>
+          <img
+            src="http://m.qpic.cn/psb?/V11CA95048EY0H/A9GmTVHrY.6XNIzYWf2W3PlDayCm06kmNFpQ8uAZtgo!/b/dDYBAAAAAAAA&bo=ygTMAQAAAAARFyM!&rf=viewer_4"
+            alt=""
+          />
+        </li>
+        <li>
+          <img
+            src="http://m.qpic.cn/psb?/V11CA95048EY0H/qYq0ZCGjDUuwqpIKTuo57hr5wZ6kLls8NKgM*EX8nvw!/b/dFMBAAAAAAAA&bo=ygTMAQAAAAARFyM!&rf=viewer_4"
+            alt=""
+          />
+        </li>
+        <li>
+          <img
+            src="http://m.qpic.cn/psb?/V11CA95048EY0H/NsSF8XIJnFPPqWkqAQRjLQgtgTAlFvSkU7VulnfePkA!/b/dL8AAAAAAAAA&bo=ygTMAQAAAAARFyM!&rf=viewer_4"
+            alt=""
+          />
+        </li>
+        <li>
+          <img
+            src="https://m.qpic.cn/psb?/V11CA95048EY0H/.ubxWcpYNfZ8bxP.aX9Ft0Xw27Wt0TSqHy1nGwH8Sy4!/b/dMMAAAAAAAAA&bo=ygTMAQAAAAARBzM!&rf=viewer_4"
+            alt=""
+          />
+        </li>
+      </ul>
+    </div>
+
+  </body>
+</html>
