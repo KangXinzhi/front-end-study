@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>拖动</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    .list {
+      width: 600px;
+      margin: 200px auto;
+    }
+
+    .list-item {
+      color: white;
+      background: linear-gradient(90deg, rgba(34, 193, 195, 1) 0%, rgba(253, 187, 45, 1) 100%);
+      border-radius: 4px;
+      margin: 12px;
+      padding: 8px;
+    }
+
+    .list-item-moving {
+      background: transparent;
+      color: transparent;
+      border: 1px dashed #ccc;
+    }
+  </style>
+</head>
+
+<body>
+  <div class='list'>
+    <div class='list-item' draggable="true">1</div>
+    <div class='list-item' draggable="true">2</div>
+    <div class='list-item' draggable="true">3</div>
+    <div class='list-item' draggable="true">4</div>
+    <div class='list-item' draggable="true">5</div>
+  </div>
+
+  <script>
+    const list = document.querySelector('.list')
+    const item = document.querySelectorAll('.list-item')
+    let sourceNode;
+
+    list.ondragstart = e => {
+      sourceNode = e.target
+      record(item)
+      setTimeout(() => {
+        e.target.classList.add('moving')
+      }, 0)
+      e.dataTransfer.effectAllowed = 'move'
+    }
+
+    list.ondragover = e => {
+      e.preventDefault()
+    }
+
+
+    list.ondragenter = e => {
+      e.preventDefault()
+      if (e.target === list || e.target === sourceNode) {
+        return false
+      }
+      const children = Array.from(list.children)
+      const sourceIndex = children.indexOf(sourceNode)
+      const targetIndex = children.indexOf(e.target)
+      if (sourceIndex < targetIndex) {
+        list.insertBefore(sourceNode, e.target.nextElementSibling)
+      } else {
+        list.insertBefore(sourceNode, e.target)
+      }
+      last([e.target, sourceNode])
+    }
+
+    list.ondragend = e => {
+      e.target.classList.remove('moving')
+    }
+
+
+    function record(eleAll) {
+      for (let i = 0; i < eleAll.length; i++) {
+        const { top, left } = eleAll[i].getBoundingClientRect()
+        eleAll[i]._top_ = top
+        eleAll[i]._left_ = left
+      }
+    }
+
+
+
+    function last(eleAll) {
+      for (let i = 0; i < eleAll.length; i++) {
+        const dom = eleAll[i]
+        const { top, left } = dom.getBoundingClientRect()
+        if (dom._left_) {
+          dom.style.transform = `translate3d(${dom._left_ - left}px, ${dom._top_ - top}px,0px)`
+
+          let rafId = requestAnimationFrame(function () {
+            dom.style.transition = 'transform 300ms ease-out'
+            dom.style.transform = 'none'
+          })
+          dom.addEventListener('transitionend', () => {
+            dom.style.transition = 'none'
+            cancelAnimationFrame(rafId)
+          })
+        }
+      }
+    }
+  </script>
+</body>
+
+</html>
