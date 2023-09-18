@@ -1,0 +1,33 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.list {
+  width: 500px;
+}
+
+.list-item {
+  margin: 5px 0;
+  padding: 0 20px;
+  line-height: 40px;
+  height: 40px;
+  background: linear-gradient(to right, #267871, #136a8a);
+  color: #fff;
+  cursor: move;
+  user-select: none;
+  border-radius: 5px;
+}
+.list-item.moving {
+  background: transparent;
+  color: transparent;
+  border: 1px dashed #ccc;
+}
