@@ -11,6 +11,7 @@ func (Function): 需要缓存化的函数.
 (Function): 返回缓存化后的函数。
 
 例子
+```
 var object = { 'a': 1, 'b': 2 };
 var other = { 'c': 3, 'd': 4 };
  
@@ -32,7 +33,7 @@ values(object);
  
 // 替换 `_.memoize.Cache`。
 _.memoize.Cache = WeakMap;
-
+```
 
 ```
 function memoize(func, resolver){
