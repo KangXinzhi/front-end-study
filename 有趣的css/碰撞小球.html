@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body,
+    html {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    div {
+      position: relative;
+      width: 220px;
+      height: 97px;
+      background: linear-gradient(#f00, #f00), url(https://s1.ax1x.com/2023/08/15/pPQm9oT.jpg);
+      background-blend-mode: lighten;
+      background-size: contain;
+      animation: horizontal 3.7s infinite -1.4s linear alternate,
+        vertical 4.1s infinite -2.1s linear alternate,
+        colorX 37s infinite -1.4s steps(10),
+        colorY 28.7s infinite -2.1s steps(7);
+      animation-composition: accumulate;
+
+    }
+
+    @keyframes horizontal {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(calc(100vw - 100%));
+      }
+    }
+
+    @keyframes vertical {
+      from {
+        transform: translateY(0);
+      }
+
+      to {
+        transform: translateY(calc(100vh - 100%));
+      }
+    }
+
+    @keyframes colorX {
+      to {
+        filter: hue-rotate(2185deg);
+      }
+    }
+
+    @keyframes colorY {
+      to {
+        filter: hue-rotate(1769deg);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div></div>
+</body>
+
+</html>
