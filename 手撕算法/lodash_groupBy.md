@@ -38,7 +38,7 @@ function groupBy(collection, propsName){
 // v1
 
 function groupBy(collection, generateKey){
-  if(typeof generateKey ==== 'string'){
+  if(typeof generateKey === 'string'){
     const propName = generateKey
     generateKey = (item) => item[propName]
   }
